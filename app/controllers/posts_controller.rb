@@ -3,6 +3,7 @@ class PostsController < ApplicationController
         signed_out_signin_path
         @posts = Post.all
         @user = current_user
+        @comment = Comment.new
     end
 
     def new
@@ -13,7 +14,7 @@ class PostsController < ApplicationController
     
     def create
         post = Post.create(params[:post])
-        redirect_to posts_path
+        redirect_to post
     end
     
     def show
@@ -37,6 +38,7 @@ class PostsController < ApplicationController
 
     def destroy
         @post = Post.find(params[:id])
+        @post.comments.destroy_all
         if @post.destroy
             flash[:success] = "Post deleted successfully."
         else

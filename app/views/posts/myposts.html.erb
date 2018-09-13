@@ -24,5 +24,14 @@
             <%= link_to("Edit Post", edit_post_path(post.id)) %>
             <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
         <% end %>
+
+        <% post.comments.each do |comment| %>
+            <p><%= User.find(comment.user_id).username %>'s Comment: <%= comment.body %> </p>
+            <% if comment.user_id == @user.id%>
+                <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
+                <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
+            <% end %>
+        <% end %>
+
     </div>
 <% end %>   

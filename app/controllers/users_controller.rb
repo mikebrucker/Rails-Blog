@@ -20,6 +20,7 @@ class UsersController < ApplicationController
         signed_out_signin_path
         @user = User.find(params[:id])
         @current_user = current_user
+        @post_number = 1
     end
 
     def edit
@@ -41,6 +42,11 @@ class UsersController < ApplicationController
 
     def destroy
         @user = User.find(params[:id])
+        @user.posts.each do |post|
+            post.comments.destroy_all
+        end
+        @user.comments.destroy_all
+        @user.posts.destroy_all
         if @user == current_user
             sign_out
         end

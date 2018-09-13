@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
         if user.present? && user.password == params[:password]
             session[:user_id] = user.id 
             flash[:success] = "#{user.username} Logged In"
-            redirect_to users_path
+            redirect_to posts_path
         elsif !user
             flash[:alert] = "Username does not exist"
             redirect_to signin_path

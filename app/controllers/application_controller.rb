@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
     def signed_in_users_path
         if session[:user_id]
-            redirect_to users_path
+            redirect_to posts_path
         end
     end
    

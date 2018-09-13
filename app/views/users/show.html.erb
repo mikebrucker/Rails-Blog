@@ -1,7 +1,5 @@
 <% content_for :title do @user.username end %>
 
-
-
 <p>
     Username: <%= @user.username %>
 </p>
@@ -21,4 +19,37 @@
 <% if @user == @current_user %>
     <%= link_to("Edit User", edit_user_path(@user.id)) %>
     <%= link_to("Delete User", user_path(@user.id), method: :delete) %>
+<% end %>
+
+<% @user.posts.reverse.each do |post| %>
+    <p>
+        <%= @user.username %>'s Post <%= @post_number %>:
+    </p>
+    <p>
+        Title: <%= post.title %>
+    </p>
+    <p>
+        Body: <%= post.body %>
+    </p>
+    <p>
+        Created_at: <%= post.created_at %>
+    </p>
+    <p>
+        Updated_at: <%= post.updated_at %>
+    </p>
+
+    <% if @user == @current_user %>
+        <%= link_to("Edit Post", edit_post_path(post.id)) %>
+        <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
+    <% end %>
+
+    <% post.comments.each do |comment| %>
+        <p><%= User.find(comment.user_id).username %>'s Comment: <%= comment.body %> </p>
+        <% if comment.user_id == @user.id%>
+            <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
+            <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
+        <% end %>
+    <% end %>
+
+    <% @post_number += 1 %>
 <% end %>
