@@ -1,0 +1,25 @@
+<% content_for :title do 'Blog' end %>
+
+<main id='posts-index'>
+
+<a href="/posts/new"><div>CREATE POST</div></a>
+
+<% @posts.each do |post| %>
+
+    <div class="post">
+        <p>
+            <%= @user.username %>'s Post
+        </p>
+            Post Title: <%= post.title %>
+        </p>
+        <p>
+            Post Body: <%= post.body %>
+        </p>
+        <p>
+            <%= link_to 'go to post', post %>
+        </p>
+    </div>
+    
+<% end %>
+
+</main>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RailsBlog</title>
+    <title><%= yield :title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,32 @@
   </head>
 
   <body>
+
+    <a href="/"><header>GrayScale</header></a>
+    
+    <nav>
+      <a href="/users"><div>USERS</div></a>
+      <a href="/posts"><div>POSTS</div></a>
+    </nav>
+
+    <div class='profile'>
+      <% if !current_user %>
+        <a href="/signin"><div>SIGN IN</div></a>
+        <a href="/users/new"><div>SIGN UP</div></a>
+      <% else %>
+        <a href="/signout"><div>SIGN OUT</div></a>
+        <a href="/users/<%= current_user.id %>"><div><%= current_user.username %></div></a>
+        <a href="/myposts/"><div>MY POSTS</div></a>
+      <% end %>
+    </div>
+
+    <div class="flash success"><%= flash[:success] if flash[:success] %></div>
+    <div class="flash error"><%= flash[:error] if flash[:error] %></div>
+    <div class="flash alert"><%= flash[:alert] if flash[:alert] %></div>
+    <div class="flash notice"><%= flash[:notice] if flash[:notice] %></div>
+
     <%= yield %>
+
   </body>
+
 </html>

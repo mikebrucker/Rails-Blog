@@ -1,0 +1,28 @@
+<% content_for :title do "#{@user.username}'s Posts'" end %>
+
+
+<% @posts.each do |post|%>
+    <div class="post">
+        <p>
+            Post <%= @post_number %>:
+        </p>
+        <p>
+            Title: <%= post.title %>
+        </p>
+        <p>
+            Body: <%= post.body %>
+        </p>
+        <p>
+            Created_at: <%= post.created_at %>
+        </p>
+        <p>
+            Updated_at: <%= post.updated_at %>
+        </p>
+        <% @post_number += 1 %>
+
+        <% if @user %>
+            <%= link_to("Edit Post", edit_post_path(post.id)) %>
+            <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
+        <% end %>
+    </div>
+<% end %>   
