@@ -4,6 +4,6 @@
     <% @users.each do |user| %>
         <%= render "shared/display_user", user: user, current_user: @current_user%>
 
-        <p><%= link_to 'Click here to find out more about this user and possibly their password', user %></p>
+        <p><%= link_to "#{user.username}'s Page", user %></p>
     <% end %>
 </main>

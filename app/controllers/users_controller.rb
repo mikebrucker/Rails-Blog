@@ -11,9 +11,49 @@ class UsersController < ApplicationController
     end
 
     def create
-        user = User.create(user_params)
-        flash[:success] = "Your account was created successfully."
-        redirect_to user
+        special_characters = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '?', '<', '>']
+        password_has_special_character = 0
+        password_checker = 0
+        params[:user][:password].each_char do |pw|
+            special_characters.each do |char|
+                if pw == char
+                    password_has_special_character += 1
+                end
+            end
+        end
+        params[:user][:password].each_char do |pw|
+            ('a'..'z').each do |a|
+                if pw == a
+                    password_checker += 1
+                end
+            end
+        end
+        params[:user][:password].each_char do |pw| 
+            ('0'..'9').each do |n|
+                if pw == n
+                    password_checker += 1
+                end
+            end
+        end
+        if User.where(username: params[:user][:username]).first
+            flash[:error] = "Username Already Exists."
+        elsif params[:user][:username].length < 4
+            flash[:error] = "Username Must Be At Least 4 Characters."
+        elsif password_checker + password_has_special_character != params[:user][:password].length
+            flash[:error] = "Password Includes Incorrect Characters"    
+        elsif password_has_special_character == 0
+            flash[:error] = "Password Must Include at Least One Special Character."    
+        elsif params[:user][:password].length < 8
+            flash[:error] = "Password Must Be 8 Characters or Longer."
+        elsif params[:user][:password] != params[:confirm_password]
+            flash[:error] = "Passwords Do Not Match"
+        elsif params[:user][:password] == params[:confirm_password]
+            user = User.create(user_params)
+            flash[:success] = "Your Account Was Created Successfully."
+            redirect_to user
+            return
+        end
+        redirect_to new_user_path
     end
 
     def show
@@ -34,8 +74,57 @@ class UsersController < ApplicationController
 
     def update
         signed_out_signin_path
-        user = User.find(params[:id])
-        if user.password == params[:confirm_password]
+        special_characters = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '?', '<', '>']
+        password_has_special_character = 0
+        password_checker = 0
+        params[:user][:password].each_char do |pw|
+            special_characters.each do |char|
+                if pw == char
+                    password_has_special_character += 1
+                end
+            end
+        end
+        params[:user][:password].each_char do |pw|
+            ('a'..'z').each do |a|
+                if pw == a
+                    password_checker += 1
+                end
+            end
+        end
+        params[:user][:password].each_char do |pw| 
+            ('0'..'9').each do |n|
+                if pw == n
+                    password_checker += 1
+                end
+            end
+        end
+        if User.where(username: params[:user][:username]).first && User.where(username: params[:user][:username]).first != current_user
+            flash[:error] = "Username Already Exists."
+            redirect_to request.referrer
+            return
+        elsif params[:user][:username].length < 4
+            flash[:error] = "Username Must Be At Least 4 Characters."
+            redirect_to request.referrer
+            return
+        elsif password_checker + password_has_special_character != params[:user][:password].length
+            flash[:error] = "Password Includes Incorrect Characters"
+            redirect_to request.referrer
+            return
+        elsif password_has_special_character == 0
+            flash[:error] = "Password Must Include at Least One Special Character."
+            redirect_to request.referrer
+            return
+        elsif params[:user][:password].length < 8
+            flash[:error] = "Password Must Be 8 Characters or Longer."
+            redirect_to request.referrer
+            return
+        elsif params[:user][:password] != params[:confirm_password]
+            flash[:error] = "Passwords Do Not Match"
+            redirect_to request.referrer
+            return
+        end
+        user = current_user
+        if user.password == params[:old_password]
             user.update(user_params)
             flash[:success] = "Updated User."
         else 
