@@ -1,49 +1,18 @@
-<% content_for :title do 'Blog' end %>
+<% content_for :title do 'All Posts' end %>
 
 <main id='posts-index'>
+    <% @posts.reverse.each do |post| %>
+        <div class="post">
+            <%= render "shared/display_post", user: post.user, post: post %>
 
-<a href="/posts/new"><div>CREATE POST</div></a>
+            <p><%= link_to 'go to post', post %></p>
 
-<% @posts.reverse.each do |post| %>
+            <%= render "shared/make_comment", comment: @comment, user: @current_user, post: post %>
 
-    <div class="post">
-        <p>
-            <%= post.user.username %>'s Post
-        </p>
-            Post Title: <%= post.title %>
-        </p>
-        <p>
-            Post Body: <%= post.body %>
-        </p>
-        
-        <% if @user == post.user %>
-            <%= link_to("Edit Post", edit_post_path(post.id)) %>
-            <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
-        <% end %>
+            <% post.comments.each do |comment| %>
+                <%= render "shared/display_comment", comment: comment, current_user: @current_user %>
+            <% end %>
 
-        <p>
-            <%= link_to 'go to post', post %>
-        </p>
-
-        <%= form_for @comment do |f| %>
-            <%= f.text_area :body %>
-            <%= f.hidden_field(:user_id, value: @user.id) %>
-            <%= f.hidden_field(:post_id, value: post.id) %>
-            <%= f.submit %>
-        <% end %>
-
-        <% post.comments.each do |comment| %>
-            <p>
-                <%= User.find(comment.user_id).username %>'s Comment: <%= comment.body %>
-                <% if comment.user_id == @user.id%>
-                    <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
-                    <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
-                <% end %>
-            </p>
-        <% end %>
-
-    </div>
-    
-<% end %>
-
+        </div>
+    <% end %>
 </main>

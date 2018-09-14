@@ -1,0 +1,10 @@
+<p><%= user.username %>'s Post</p>
+<p>Title: <%= post.title %></p>
+<p>Body: <%= post.body %></p>
+<p>Created_at: <%= post.created_at %></p>
+<p>Updated_at: <%= post.updated_at %></p>
+
+<% if user == current_user %>
+    <%= link_to("Edit Post", edit_post_path(post.id)) %>
+    <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
+<% end %>

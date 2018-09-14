@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     end
 
     def create
-        user = User.create(params[:user])
+        user = User.create(user_params)
         flash[:success] = "Your account was created successfully."
         redirect_to user
     end
@@ -21,18 +21,22 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         @current_user = current_user
         @post_number = 1
+        @comment = Comment.new
     end
 
     def edit
         signed_out_signin_path
         @user = User.find(params[:id])
+        if @user != current_user
+            redirect_to "/users/#{current_user.id}"
+        end
     end
 
     def update
         signed_out_signin_path
         user = User.find(params[:id])
         if user.password == params[:confirm_password]
-            user.update(params[:user])
+            user.update(user_params)
             flash[:success] = "Updated User."
         else 
             flash[:error] = "Incorrect Password."
@@ -56,5 +60,11 @@ class UsersController < ApplicationController
             flash[:error] = "There was a problem deleting the user."
         end
         redirect_to signin_path
+    end
+
+    private
+
+    def user_params
+        params.require(:user).permit(:username, :email, :password)
     end
 end

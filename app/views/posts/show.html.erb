@@ -1,26 +1,11 @@
 <% content_for :title do @post.title end %>
 
-<p>
-    <%= @user.username %>'s Post
-</p>
-<p>
-    Title: <%= @post.title %>
-</p>
-<p>
-    Body: <%= @post.body %>
-</p>
-<p>
-    Created_at: <%= @post.created_at %>
-</p>
-<p>
-    Updated_at: <%= @post.updated_at %>
-</p>
+<div class="post">
+    <%= render "shared/display_post", user: @post.user, post: @post %>
 
-<% if @user == @current_user %>
-    <%= link_to("Edit Post", edit_post_path(@post.id)) %>
-    <%= link_to("Delete Post", post_path(@post.id), method: :delete) %>
-<% end %>
+    <%= render "shared/make_comment", comment: @comment, user: @current_user, post: @post %>
 
-<% @post.comments.each do |comment| %>
-    <p><%= User.find(comment.user_id).username %>'s Comment: <%= comment.body %> </p>
-<% end %>
+    <% @post.comments.each do |comment| %>
+        <%= render "shared/display_comment", comment: comment, current_user: @current_user %>
+    <% end %>
+</div>

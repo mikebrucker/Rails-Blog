@@ -1,0 +1,8 @@
+<p>
+    <%= comment.user.username %>'s Comment: <%= comment.body %>
+
+    <% if comment.user == current_user %>
+        <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
+        <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
+    <% end %>
+</p>

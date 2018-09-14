@@ -1,19 +1,9 @@
-<% content_for :title do 'Users' end %>
+<% content_for :title do 'All Users' end %>
 
 <main id='users-index'>
+    <% @users.each do |user| %>
+        <%= render "shared/display_user", user: user, current_user: @current_user%>
 
-<% @users.each do |user| %>
-
-    <p>
-        Username: <%= user.username %>
-    </p>
-    <p>
-        Email: <%= user.email %>
-    </p>
-    <p>
-        <%= link_to 'Click here to find out more about this user and possibly their password', user %>
-    </p>
-
-<% end %>
-
+        <p><%= link_to 'Click here to find out more about this user and possibly their password', user %></p>
+    <% end %>
 </main>

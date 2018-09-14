@@ -1,0 +1,10 @@
+<p>Username: <%= user.username %></p>
+<p>Email: <%= user.email %></p>
+<p>Password: <%= user.password %></p>
+<p>Created_at: <%= user.created_at %></p>
+<p>Updated_at: <%= user.updated_at %></p>
+
+<% if user == current_user %>
+    <%= link_to("Edit User", edit_user_path(user.id)) %>
+    <%= link_to("Delete User", user_path(user.id), method: :delete) %>
+<% end %>

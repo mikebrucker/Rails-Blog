@@ -1,12 +1,12 @@
-<main id='edit_post'>
+<% content_for :title do "Edit #{@post.title}" end %>
 
+<main id='edit_post'>
     <%= form_for @post do |f| %>
         <%= f.label :title %>
         <%= f.text_field :title %>
         <%= f.label :body %>
         <%= f.text_area(:body, size: "60x20") %>
-        <%= f.hidden_field(:user_id, value: @user.id)%>
+        <%= f.hidden_field(:user_id, value: @post.user_id)%>
         <%= f.submit %>
     <% end %>
-
 </main>

@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
     
     def create
         @post = Post.find(params[:comment][:post_id])
-        Comment.create(params[:comment])
+        Comment.create(comment_params)
         redirect_to request.referrer
     end
     
@@ -14,15 +14,15 @@ class CommentsController < ApplicationController
     
     def edit
         @comment = Comment.find(params[:id])
-        if @comment.user.id != current_user.id
+        if @comment.user != current_user
             redirect_to posts_path
         end
     end
 
     def update
         comment = Comment.find(params[:id])
-        comment.update(params[:comment])
-        redirect_to posts_path
+        comment.update(comment_params)
+        redirect_to comment.post
     end
 
     def destroy
@@ -31,5 +31,11 @@ class CommentsController < ApplicationController
             flash[:notice] = "Comment Deleted"
         end
         redirect_to request.referrer
+    end
+
+    private
+
+    def comment_params
+        params.require(:comment).permit(:body, :user_id, :post_id)
     end
 end

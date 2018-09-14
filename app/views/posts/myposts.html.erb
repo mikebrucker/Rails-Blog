@@ -1,37 +1,19 @@
-<% content_for :title do "#{@user.username}'s Posts'" end %>
-
+<% content_for :title do "#{@current_user.username}'s Posts'" end %>
 
 <% @posts.each do |post|%>
     <div class="post">
-        <p>
-            Post <%= @post_number %>:
-        </p>
-        <p>
-            Title: <%= post.title %>
-        </p>
-        <p>
-            Body: <%= post.body %>
-        </p>
-        <p>
-            Created_at: <%= post.created_at %>
-        </p>
-        <p>
-            Updated_at: <%= post.updated_at %>
-        </p>
-        <% @post_number += 1 %>
+        <p>Post <%= @post_number %>:</p>
 
-        <% if @user %>
-            <%= link_to("Edit Post", edit_post_path(post.id)) %>
-            <%= link_to("Delete Post", post_path(post.id), method: :delete) %>
-        <% end %>
+        <%= render "shared/display_post", user: post.user, post: post %>
+
+        <p><%= link_to 'go to post', post %></p>
+
+        <%= render "shared/make_comment", comment: @comment, user: @current_user, post: post%>
 
         <% post.comments.each do |comment| %>
-            <p><%= User.find(comment.user_id).username %>'s Comment: <%= comment.body %> </p>
-            <% if comment.user_id == @user.id%>
-                <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
-                <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
-            <% end %>
+            <%= render "shared/display_comment", comment: comment, current_user: @current_user %>
         <% end %>
-
     </div>
-<% end %>   
+
+    <% @post_number += 1 %>
+<% end %>

@@ -2,18 +2,18 @@ class PostsController < ApplicationController
     def index
         signed_out_signin_path
         @posts = Post.all
-        @user = current_user
+        @current_user = current_user
         @comment = Comment.new
     end
 
     def new
         signed_out_signin_path
         @post = Post.new
-        @user = current_user
+        @current_user = current_user
     end
     
     def create
-        post = Post.create(params[:post])
+        post = Post.create(post_params)
         redirect_to post
     end
     
@@ -21,18 +21,20 @@ class PostsController < ApplicationController
         signed_out_signin_path
         @post = Post.find(params[:id])
         @current_user = current_user
-        @user = User.find(@post.user_id)
+        @comment = Comment.new
     end
     
     def edit
         signed_out_signin_path
         @post = Post.find(params[:id])
-        @user = current_user
+        if @post.user != current_user
+            redirect_to posts_path
+        end
     end
 
     def update
         post = Post.find(params[:id])
-        post.update(params[:post])
+        post.update(post_params)
         redirect_to post
     end
 
@@ -50,7 +52,14 @@ class PostsController < ApplicationController
     def myposts
         signed_out_signin_path
         @post_number = 1
-        @user = current_user
-        @posts = Post.where(user_id: @user.id)
+        @current_user = current_user
+        @posts = Post.where(user_id: @current_user.id)
+        @comment = Comment.new
+    end
+
+    private
+
+    def post_params
+        params.require(:post).permit(:title, :body, :user_id)
     end
 end
