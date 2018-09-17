@@ -1,12 +1,13 @@
 <% content_for :title do "Sign Up" end %>
 
 <main id='new_user'>
-    <p>Username must be at least 4 characters.</p>
+    <p>Username must be 4 to 20 characters and cannot have spaces.</p>
     <p>Password must be at least 8 characters.</p>
     <p>Password must include at least one of these special characters: ~ ! @ # $ % ^ & * ( ) - _ + ? < ></p>
     <p>Password can only include the standard alphabet, numbers, and the specified special characters.</p>
     
     <main class="form">
+        <h2>Sign Up</h2>
         <%= form_for @user do |f| %>
             <div>
                 <%= f.label :username %>

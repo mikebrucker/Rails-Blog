@@ -1,6 +1,8 @@
 <% content_for :title do "Edit #{@comment.user.username}'s Comment'" end %>
 
-<%= form_for @comment do |f| %>
-    <%= f.text_area(:body, size: "60x20") %>
-    <%= f.submit %>
-<% end %>
+<main class="create_post">
+    <%= form_for @comment do |f| %>
+        <%= f.text_area(:body, size: "60x20") %>
+        <%= f.submit %>
+    <% end %>
+</main>

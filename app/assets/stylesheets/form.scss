@@ -1,0 +1,25 @@
+.form {
+    color: rgb(220, 220, 220);
+    background: rgb(72, 72, 72);
+    text-align: center;
+    margin: 10px auto;
+    max-width: 360px;
+    padding: 20px 0;
+    border-radius: 10px;
+    h2 {
+        margin: 0 auto 10px;
+    }
+    div {
+        display: inline-block;
+        label {
+            text-align: right;
+        }
+        label, input {
+            margin: 5px;
+            display: block;
+        }
+    }
+    p {
+        margin: 6px auto;
+    }
+}

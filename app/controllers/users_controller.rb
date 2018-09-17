@@ -14,6 +14,7 @@ class UsersController < ApplicationController
         special_characters = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '?', '<', '>']
         password_has_special_character = 0
         password_checker = 0
+        username_has_spaces = false
         params[:user][:password].each_char do |pw|
             special_characters.each do |char|
                 if pw == char
@@ -35,23 +36,29 @@ class UsersController < ApplicationController
                 end
             end
         end
-        if User.where(username: params[:user][:username]).first
-            flash[:error] = "Username Already Exists."
-        elsif params[:user][:username].length < 4
-            flash[:error] = "Username Must Be At Least 4 Characters."
+        params[:user][:username].each_char do |u|
+            if u == ' '
+                username_has_spaces = true
+            end
+        end
+        if username_has_spaces
+            flash[:error] = "Username Cannot Have Spaces"
         elsif password_checker + password_has_special_character != params[:user][:password].length
-            flash[:error] = "Password Includes Incorrect Characters"    
+            flash[:error] = "Password Includes Incorrect Characters"
         elsif password_has_special_character == 0
-            flash[:error] = "Password Must Include at Least One Special Character."    
-        elsif params[:user][:password].length < 8
-            flash[:error] = "Password Must Be 8 Characters or Longer."
+            flash[:error] = "Password Must Include at Least One Special Character."
         elsif params[:user][:password] != params[:confirm_password]
             flash[:error] = "Passwords Do Not Match"
         elsif params[:user][:password] == params[:confirm_password]
-            user = User.create(user_params)
-            flash[:success] = "Your Account Was Created Successfully."
-            redirect_to user
-            return
+            user = User.new(user_params)
+            if user.save
+                flash[:success] = "Your Account Was Created Successfully."
+                redirect_to signin_path
+                return
+            else
+                flash[:error] = "Error: "
+                flash[:error] += user.errors.full_messages.join(', ')
+            end
         end
         redirect_to new_user_path
     end
@@ -77,6 +84,7 @@ class UsersController < ApplicationController
         special_characters = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '?', '<', '>']
         password_has_special_character = 0
         password_checker = 0
+        username_has_spaces = false
         params[:user][:password].each_char do |pw|
             special_characters.each do |char|
                 if pw == char
@@ -98,39 +106,35 @@ class UsersController < ApplicationController
                 end
             end
         end
-        if User.where(username: params[:user][:username]).first && User.where(username: params[:user][:username]).first != current_user
-            flash[:error] = "Username Already Exists."
-            redirect_to request.referrer
-            return
-        elsif params[:user][:username].length < 4
-            flash[:error] = "Username Must Be At Least 4 Characters."
-            redirect_to request.referrer
-            return
-        elsif password_checker + password_has_special_character != params[:user][:password].length
-            flash[:error] = "Password Includes Incorrect Characters"
-            redirect_to request.referrer
-            return
-        elsif password_has_special_character == 0
-            flash[:error] = "Password Must Include at Least One Special Character."
-            redirect_to request.referrer
-            return
-        elsif params[:user][:password].length < 8
-            flash[:error] = "Password Must Be 8 Characters or Longer."
-            redirect_to request.referrer
-            return
-        elsif params[:user][:password] != params[:confirm_password]
-            flash[:error] = "Passwords Do Not Match"
-            redirect_to request.referrer
-            return
+        params[:user][:username].each_char do |u|
+            if u == ' '
+                username_has_spaces = true
+            end
         end
         user = current_user
-        if user.password == params[:old_password]
-            user.update(user_params)
-            flash[:success] = "Updated User."
+        if User.where(username: params[:user][:username]).first && User.where(username: params[:user][:username]).first != current_user
+            flash[:error] = "Username Already Exists."
+        elsif username_has_spaces
+            flash[:error] = "Username Cannot Have Spaces"    
+        elsif password_checker + password_has_special_character != params[:user][:password].length
+            flash[:error] = "Password Includes Incorrect Characters"
+        elsif password_has_special_character == 0
+            flash[:error] = "Password Must Include at Least One Special Character."
+        elsif params[:user][:password] != params[:confirm_password]
+            flash[:error] = "Passwords Do Not Match"
+        elsif user.password == params[:old_password]
+            if user.update(user_params)
+                flash[:success] = "Your Account Was Updated Successfully."
+                redirect_to user
+                return
+            else
+                flash[:error] = "Error: "
+                flash[:error] += user.errors.full_messages.join(', ')
+            end
         else 
             flash[:error] = "Incorrect Password."
         end
-        redirect_to user
+        redirect_to request.referrer
     end
 
     def destroy

@@ -1,18 +1,27 @@
 .create_post {
+    color: rgb(184, 184, 184);
+    background: rgb(36, 36, 36);
+    margin: 10px auto;
     max-width: 600px;
-    margin: 0 auto;
-    form { 
-        div {
-            input {
-                width: 90%;
-                float: right;
-            }
+    padding: 10px;
+    border-radius: 10px;
+    h2 {
+        text-align: center;
+    }
+    textarea {
+        width: 100%;
+        height: 200px;
+    }
+    div {
+        margin: 10px auto;
+        input {
+            width: 88%;
+            float: right;
         }
-        textarea {
-            width: 100%;
-        }
-        p {
-            text-align: center;
-        }
+        width: 100%;
+    }
+    p {
+        text-align: center;
+        margin: 0 auto;
     }
 }

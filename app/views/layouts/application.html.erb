@@ -28,14 +28,18 @@
         <a href="/myposts/"><div>MY POSTS</div></a>
         <a href="/posts/new"><div>NEW POST</div></a>
       <% end %>
+
     </div>
-
-    <div class="flash success"><%= flash[:success] if flash[:success] %></div>
-    <div class="flash error"><%= flash[:error] if flash[:error] %></div>
-    <div class="flash alert"><%= flash[:alert] if flash[:alert] %></div>
-    <div class="flash notice"><%= flash[:notice] if flash[:notice] %></div>
-
-    <%= yield %>
+      <div class="flashes">
+      <div class="flash success"><%= flash[:success] if flash[:success] %></div>
+      <div class="flash error"><%= flash[:error] if flash[:error] %></div>
+      <div class="flash alert"><%= flash[:alert] if flash[:alert] %></div>
+      <div class="flash notice"><%= flash[:notice] if flash[:notice] %></div>
+    </div>
+    
+    <main class="yield">
+      <%= yield %>
+    </main>
 
   </body>
 
