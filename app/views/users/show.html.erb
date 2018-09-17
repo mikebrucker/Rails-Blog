@@ -1,21 +1,23 @@
 <% content_for :title do @user.username end %>
 
-<%= render "shared/display_user", user: @user, current_user: @current_user%>
+<main class="show_user">
+    <%= render "shared/display_user", user: @user, current_user: @current_user%>
 
-<% @user.posts.reverse.each do |post| %>
-    <div class="post">
-        <p>Post: <%= @post_number %></p>
+    <% @user.posts.reverse.each do |post| %>
+        <div class="post">
+            <p>Post: <%= @post_number %></p>
 
-        <%= render "shared/display_post", user: post.user, post: post, current_user: @current_user %>
+            <%= render "shared/display_post", user: post.user, post: post, current_user: @current_user %>
 
-        <p><%= link_to 'go to post', post %></p>
+            <p><%= link_to 'go to post', post %></p>
 
-        <%= render "shared/make_comment", comment: @comment, user: @current_user, post: post %>
+            <%= render "shared/make_comment", comment: @comment, user: @current_user, post: post %>
 
-        <% post.comments.each do |comment| %>
-            <%= render "shared/display_comment", comment: comment, current_user: @current_user %>
-        <% end %>
-    </div>
+            <% post.comments.each do |comment| %>
+                <%= render "shared/display_comment", comment: comment, current_user: @current_user %>
+            <% end %>
+        </div>
 
-    <% @post_number += 1 %>
-<% end %>
+        <% @post_number += 1 %>
+    <% end %>
+</main>

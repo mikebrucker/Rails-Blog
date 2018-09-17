@@ -1,9 +1,9 @@
 <% content_for :title do 'All Users' end %>
 
-<main id='users-index'>
-    <% @users.each do |user| %>
+<% @users.each do |user| %>
+    <main class="show_user">
         <%= render "shared/display_user", user: user, current_user: @current_user%>
 
         <p><%= link_to "#{user.username}'s Page", user %></p>
-    <% end %>
-</main>
+    </main>
+<% end %>

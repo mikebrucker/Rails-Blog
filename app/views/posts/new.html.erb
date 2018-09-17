@@ -1,12 +1,18 @@
 <% content_for :title do "#{@current_user.username}'s New Post" end %>
 
-<main id='new_post'>
+<main class='create_post'>
     <%= form_for @post do |f| %>
-        <%= f.label :title %>
-        <%= f.text_field :title %>
-        <%= f.label :body %>
-        <%= f.text_area(:body, size: "60x20") %>
-        <%= f.hidden_field(:user_id, value: @current_user.id)%>
-        <%= f.submit %>
+        <div>
+            <%= f.label :title %>
+            <%= f.text_field :title %>
+        </div>
+        <div>
+            <%= f.label :body %>
+        </div>
+            <%= f.text_area(:body, size: "60x20") %>
+            <%= f.hidden_field(:user_id, value: @current_user.id)%>
+        <p>
+            <%= f.submit %>
+        </p>
     <% end %>
 </main>

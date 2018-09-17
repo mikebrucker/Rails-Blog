@@ -1,21 +1,28 @@
 <% content_for :title do "Sign Up" end %>
 
 <main id='new_user'>
-
     <p>Username must be at least 4 characters.</p>
     <p>Password must be at least 8 characters.</p>
     <p>Password must include at least one of these special characters: ~ ! @ # $ % ^ & * ( ) - _ + ? < ></p>
     <p>Password can only include the standard alphabet, numbers, and the specified special characters.</p>
-
-    <%= form_for @user do |f| %>
-        <%= f.label :username %>
-        <%= f.text_field :username %>
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-        <%= label_tag :confirm_password, "Confirm Password" %>
-        <%= password_field_tag :confirm_password %>
-        <%= f.submit %>
-    <% end %>
+    
+    <main class="form">
+        <%= form_for @user do |f| %>
+            <div>
+                <%= f.label :username %>
+                <%= f.label :email %>
+                <%= f.label :password %>
+                <%= label_tag :confirm_password, "Confirm Password" %>
+            </div>
+            <div>
+                <%= f.text_field :username %>
+                <%= f.text_field :email %>
+                <%= f.password_field :password %>
+                <%= password_field_tag :confirm_password %>
+            </div>
+            <p>
+                <%= f.submit %>
+            </p>
+        <% end %>
+    </main>
 </main>
