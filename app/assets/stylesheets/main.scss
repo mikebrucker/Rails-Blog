@@ -78,3 +78,9 @@ nav {
 .error {
     background: red;
 }
+
+@media all and (max-width: 568px) {
+    .profile {
+        height: 112px;
+    }
+}
