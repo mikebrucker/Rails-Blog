@@ -3,6 +3,7 @@
     padding: 10px;
     font-size: 1.1rem;
     border-radius: 10px;
+    margin: 10px auto;
 
     textarea {
         width: 100%;
@@ -16,4 +17,16 @@
     p {
         margin: 0 auto;
     }
+    div, button {
+        display: inline-block;
+    }
+    .stretch {
+        display: block;
+        width: 100%;
+    }
+}
+
+.comment {
+    display: none;
+    width: 100%;
 }

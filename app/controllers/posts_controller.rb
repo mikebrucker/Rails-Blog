@@ -27,6 +27,7 @@ class PostsController < ApplicationController
     def edit
         signed_out_signin_path
         @post = Post.find(params[:id])
+        @current_user = current_user
         if @post.user != current_user
             redirect_to posts_path
         end

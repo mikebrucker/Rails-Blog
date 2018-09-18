@@ -1,6 +1,6 @@
 <main class="display_comment">
     <%= form_for comment do |f| %>
-        <div>
+        <div class="stretch">
             <%= f.text_area :body %>
         </div>
             <%= f.hidden_field :user_id, value: user.id %>

@@ -1,10 +1,22 @@
-<p class="display_comment">
+<main class="display_comment">
     <%= comment.user.username %>'s Comment: <%= comment.body %>
 
     <% if comment.user == current_user %>
-    
-            <%= link_to("Edit Comment", edit_comment_path(comment.id)) %>
-            <%= link_to("Delete Comment", comment_path(comment.id), method: :delete) %>
-        
+        <%= form_for comment, html: {class: "comment"} do |f| %>
+            <div class="stretch">
+                <%= f.text_area :body %>
+            </div>
+                <%= f.hidden_field :user_id, value: comment.user_id %>
+                <%= f.hidden_field :post_id, value: comment.post_id %>
+            <p>
+                <%= f.submit onclick: "hide(#{comment.id})" %>
+            </p>
+        <% end %>
+        <input type='button' onclick="show(<%= comment.id %>)" value="Edit" />
+        <div>
+            <%= form_for comment, html: {class: "edit_comment"}, method: :delete do |f|%>
+                <%= f.submit value: "Delete" %>
+            <% end %>
+        </div>
     <% end %>
-</p>
+</main>

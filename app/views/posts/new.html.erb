@@ -2,18 +2,5 @@
 
 <main class="create_post">
     <h2>New Post</h2>
-    <%= form_for @post do |f| %>
-        <div>
-            <%= f.label :title %>
-            <%= f.text_field :title %>
-        </div>
-        <div>
-            <%= f.label :body %>
-        </div>
-            <%= f.text_area :body %>
-            <%= f.hidden_field(:user_id, value: @current_user.id)%>
-        <p>
-            <%= f.submit %>
-        </p>
-    <% end %>
+    <%= render "shared/make_post", post: @post %>
 </main>
