@@ -1,5 +1,9 @@
 <% content_for :title do "#{@current_user.username}'s Posts'" end %>
 
+<% if @posts.length == 0 %>
+    <div class="post">Your Posts Will Display Here. Make a Post!</div>
+<% end %>
+
 <% @posts.each do |post|%>
     <div class="post">
         <p>Post <%= @post_number %>:</p>
