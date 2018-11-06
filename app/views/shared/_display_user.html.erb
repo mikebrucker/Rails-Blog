@@ -1,7 +1,9 @@
 <p>Username: <%= user.username %></p>
 <p>Email: <%= user.email %></p>
-<p>Created_at: <%= user.created_at %></p>
-<p>Updated_at: <%= user.updated_at %></p>
+<p>Created: <%= user.created_at.strftime("%B %d, %Y, %I:%M %p") %></p>
+<% if user.created_at != user.updated_at %>
+    <p>Updated: <%= user.updated_at.strftime("%B %d, %Y, %I:%M %p") %></p>
+<% end %>
 
 <% if user == current_user %>
     <%= link_to("Edit User", edit_user_path(user.id)) %>
