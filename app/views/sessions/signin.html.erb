@@ -2,6 +2,7 @@
 
 <main class="form">
     <h2>Sign In</h2>
+
     <%= form_tag(create_session_path, method: 'post') do %>
         <div>
             <%= label_tag(:username)%>
@@ -16,3 +17,6 @@
         </p>
     <% end %>
 </main>
+<p class='center'>Dummy Login:</p>
+<p class='center'> User: ExampleUser</p>
+<p class='center'> Password: example*</p>
