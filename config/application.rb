@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module RailsBlog
   class Application < Rails::Application
+    config.time_zone = 'Eastern Time (US & Canada)'
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
     
