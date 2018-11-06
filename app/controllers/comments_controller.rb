@@ -5,8 +5,8 @@ class CommentsController < ApplicationController
     
     def create
         @post = Post.find(params[:comment][:post_id])
-        Comment.create(comment_params)
-        redirect_to request.referrer
+        comment = Comment.create(comment_params)
+        redirect_to (request.referrer + "#comment_#{comment.id}")
     end
     
     def show
@@ -22,15 +22,16 @@ class CommentsController < ApplicationController
     def update
         comment = Comment.find(params[:id])
         comment.update(comment_params)
-        redirect_to comment.post
+        redirect_to (request.referrer + "#comment_#{comment.id}")
     end
 
     def destroy
         @comment = Comment.find(params[:id])
+        post = @comment.post
         if @comment.destroy
             flash[:notice] = "Comment Deleted"
         end
-        redirect_to request.referrer
+        redirect_to (request.referrer + "#post_#{post.id}")
     end
 
     private
