@@ -94,6 +94,13 @@ textarea {
 .center {
     text-align: center;
 }
+.formatted {
+    white-space: pre-wrap;
+}
+.currentUserColor {
+    color: paleturquoise;
+    font-weight: bold;
+}
 @media all and (max-width: 568px) {
     .profile {
         height: 112px;

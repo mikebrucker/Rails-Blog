@@ -1,7 +1,10 @@
 <div class="offset_comment" id="comment_<%= comment.id %>"></div>
 <main class="display_comment">
-    <%= comment.user.username %>'s Comment: <%= comment.body %>
-
+    <% if comment.user == current_user %>
+        <p class="formatted"><span class="currentUserColor"><%= comment.user.username %>'s</span> Comment: <%= comment.body %></p>
+    <% else %>
+        <p class="formatted"><%= comment.user.username %>'s Comment: <%= comment.body %></p>
+    <% end %>
     <% if comment.user == current_user %>
         <%= form_for comment, html: {class: "comment"} do |f| %>
             <div class="stretch">

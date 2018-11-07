@@ -1,6 +1,10 @@
-<h2 id="post_<%= post.id%>"><%= user.username %>'s Post</h2>
+<% if user == current_user %>
+    <h2 id="post_<%= post.id%>"><span class="currentUserColor"><%= user.username %>'s</span> Post</h2>
+<% else %>
+    <h2 id="post_<%= post.id%>"><%= user.username %>'s Post</h2>
+<% end %>
 <h3>Title: <%= post.title %></h3>
-<p>Body: <%= post.body %></p>
+<p class="formatted">Body: <%= post.body %></p>
 <p>Posted: <%= post.created_at.strftime("%B %d, %Y, %I:%M %p") %></p>
 <% if post.created_at != post.updated_at%>
     <p>Edited: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %></p>
